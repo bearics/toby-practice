@@ -10,9 +10,9 @@ import toby.user.domain.User;
 
 public class UserDao {
 	private ConnectionMaker connectionMaker;
-	
-	public UserDao(ConnectionMaker simpleConnectionMaker) {
-		this.connectionMaker = simpleConnectionMaker;
+
+	public void setConnectionMaker(ConnectionMaker connectionMaker) {
+		this.connectionMaker = connectionMaker;
 	}
 
 	public void add(User user) throws ClassNotFoundException, SQLException {
