@@ -1,7 +1,11 @@
 package toby.user.dao;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
 import java.sql.SQLException;
 
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -9,7 +13,9 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import toby.user.domain.User;
 
 public class UserDaoTest {
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+	@Test
+	public void addAndGet() throws SQLException, ClassNotFoundException {
 		ApplicationContext context = new GenericXmlApplicationContext("resources/applicationContext.xml");
 		UserDao dao = context.getBean("userDao", UserDao.class);
 
@@ -27,5 +33,8 @@ public class UserDaoTest {
 		System.out.println(user2.getPassword());
 			
 		System.out.println(user2.getId() + " 조회 되었습니다.");
+
+		assertThat(user2.getName(), is(user.getName()));
+		assertThat(user2.getPassword(), is(user.getPassword()));
 	}
 }
