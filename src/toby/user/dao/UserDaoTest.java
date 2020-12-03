@@ -6,18 +6,25 @@ import static org.junit.Assert.*;
 import java.sql.SQLException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import toby.user.domain.User;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "/resources/applicationContext.xml")
 public class UserDaoTest {
+	@Autowired
+	private ApplicationContext context;
 
 	@Test
 	public void addAndGet() throws SQLException, ClassNotFoundException {
-		ApplicationContext context = new GenericXmlApplicationContext("resources/applicationContext.xml");
-		UserDao dao = context.getBean("userDao", UserDao.class);
+		UserDao dao = this.context.getBean("userDao", UserDao.class);
 
 		dao.deleteAll();
 		assertThat(dao.getCount(), is(0));
@@ -44,8 +51,7 @@ public class UserDaoTest {
 
 	@Test
 	public void count() throws SQLException, ClassNotFoundException {
-		ApplicationContext context = new GenericXmlApplicationContext("resources/applicationContext.xml");
-		UserDao dao = context.getBean("userDao", UserDao.class);
+		UserDao dao = this.context.getBean("userDao", UserDao.class);
 
 		User user1 = new User("userId1", "이름1", "password1");
 		User user2 = new User("userId2", "이름2", "password2");
